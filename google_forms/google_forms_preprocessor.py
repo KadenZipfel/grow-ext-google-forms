@@ -110,11 +110,6 @@ class GoogleFormsPreprocessor(google_drive.BaseGooglePreprocessor):
         el = soup.find('div', {'class': class_name})
         return el.text if el else None
 
-    def get_placeholder(
-            self, soup, class_name='quantumWizTextinputPaperinputPlaceholder'):
-        el = soup.find('div', {'class': class_name})
-        return el.text if el else None
-
     def get_description(self, soup):
         el = soup.find('div', {'class': 'freebirdFormviewerViewItemsItemItemHelpText'})
         return el.text if el else None
@@ -183,14 +178,14 @@ class GoogleFormsPreprocessor(google_drive.BaseGooglePreprocessor):
             for text in textareas:
                 field_msg = Field()
                 field_msg.field_type = FieldType.TEXTAREA
-                field_msg.placeholder = self.get_placeholder(text, class_name='quantumWizTextinputPapertextareaPlaceholder')
+                field_msg.placeholder = ''
                 field_msg.name = text.find('textarea').get('name')
                 item_msg.fields.append(field_msg)
             texts = item.findAll('div', {'class': 'freebirdFormviewerViewItemsTextItemWrapper'})
             for text in texts:
                 field_msg = Field()
                 field_msg.field_type = FieldType.TEXT
-                field_msg.placeholder = self.get_placeholder(text)
+                field_msg.placeholder = ''
                 field_msg.name = text.find('input').get('name')
                 item_msg.fields.append(field_msg)
             msg.items.append(item_msg)
